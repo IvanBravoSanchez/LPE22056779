@@ -72,6 +72,8 @@ df_ccaa<-data.frame(nombreccaa,idccaa)
 ds22056779_34<-merge(ds22056779_34,df_ccaa)
 ds22056779_34%>%view()
 
+write.csv(ds22056779_33, "ds22056779_33.csv")
+write.csv(ds22056779_34, "ds22056779_34.csv")
 # READING AND WRITING (FILES) ---------------------------------------------------------
 
 glimpse(preciosEESS_es) #invierte la tabla
