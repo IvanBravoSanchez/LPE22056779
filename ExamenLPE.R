@@ -1,0 +1,17 @@
+install.packages("janitor")
+install.packages("pacman")
+install.packages("tidyverse")
+install.packages("httr") ##instalador de paquetes
+library(tidyverse)
+library(httr)
+library(janitor)
+library(jsonlite)
+locale()
+df<-janitor::clean_names(coches_de_segunda_mano_sample) %>% type_convert(coches_de_segunda_mano_sample, locale = locale(decimal_mark = ".")) %>% glimpse()
+df%>%view()
+write.xlsx(df, file="df.csv")
+# Glimpse = genera listado en consola  de alta potencia (como view pero mejor )
+df_source <- df$country %>%  glimpse()
+
+#para limpiar los nombres de las columnas (quitar los `` de cada variable)
+janitor::clean_names(df_source) %>%  glimpse()

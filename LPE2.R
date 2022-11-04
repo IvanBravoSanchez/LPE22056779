@@ -74,6 +74,62 @@ ds22056779_34%>%view()
 
 write.csv(ds22056779_33, "ds22056779_33.csv")
 write.csv(ds22056779_34, "ds22056779_34.csv")
+
+
+
+
+
+
+
+
+
+
+options(max.print=10000)
+pacman::p_load(httr,tidyverse,leaflet,janitor,readr,sparklyr)
+url_ <-("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
+httr::GET(url)
+library(tidyverse)
+library(janitor)
+library(httr)
+library(sparklyr)
+library(readxl)
+library(dplyr)
+library(stringr)
+install.packages("leaflet0")
+library(leaflet)
+
+dataset<-df_low
+#Gasoleo A. Top 10 mas caras
+dataset %>% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion) %>%
+  top_n(10, precio_gasoleo_a) %>%
+  leaflet() %>% addTiles() %>%
+  addCircleMarkers(lng=~longitud_wgs84,lat=~latitud,popup=~rotulo,label= ~precio_gasoleo_a)
+#Gasoleo A. Top 20 m?s baratas
+dataset %>% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion) %>%
+  top_n(-20, precio_gasoleo_a) %>%
+  leaflet() %>% addTiles() %>%
+  addCircleMarkers(lng=~longitud_wgs84, lat = ~latitud, popup = ~rotulo, label = ~precio_gasoleo_a)
+
+
+#Gasoleo A. Top 10 mas caras de MURCIA
+dataset %>%filter(provincia=="MURCIA")%>% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion) %>%
+  top_n(10, precio_gasoleo_a) %>%
+  leaflet() %>% addTiles() %>%
+  addCircleMarkers(lng=~longitud_wgs84,lat=~latitud,popup=~rotulo,label= ~precio_gasoleo_a)
+#Gasoleo A. Top 20 m?s baratas de MURCIA
+dataset %>% filter(provincia=="MURCIA")%>% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion) %>%
+  top_n(-20, precio_gasoleo_a) %>%
+  leaflet() %>% addTiles() %>%
+  addCircleMarkers(lng=~longitud_wgs84, lat = ~latitud, popup = ~rotulo, label = ~precio_gasoleo_a)
+
+
+
+
+
+
+
+
 # READING AND WRITING (FILES) ---------------------------------------------------------
 
 glimpse(preciosEESS_es) #invierte la tabla
+
